@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<head>
+    <meta charset="UTF-8">
+    <title>Parallax Demo</title>
+
+    <link rel="stylesheet" href="app.css" type="text/css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/3.0.11/pixi.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+    <script src="parallaxlayers.min.js"></script>
+    <script src="example.js"></script>
+</head>
+<body>
+    <div id="ui">
+        <h2>Parallax Layers</h2>
+        <p>
+            <label for="focalLength">Focal Length</label> <br>
+            <input id="focalLength" type="number" value="" min="10" max="2000" step="10"/>
+        </p>
+        <p>
+            <label for="movementDamping">Movement Damping</label><br>
+            <input id="movementDamping" type="number" value="" min="0" max="100" step="1"/>
+        </p>
+        <p>
+            <label for="useZoom">Use Zoom</label>
+            <input id="useZoom" type="checkbox" checked/>
+        </p>
+        <p>
+            <button id="shake">Shake</button>
+        </p>
+    </div>
+    <script>
+        $(document).ready(function () {
+            new test.ParallaxExample();
+        });
+    </script>
+</body>
+</html>
