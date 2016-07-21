@@ -38,7 +38,7 @@ var test = {};
 
         var layer0 = new bma.pixi.ParallaxLayer(100);
         var layer1 = new bma.pixi.ParallaxLayer(0);
-        var layer2 = new bma.pixi.ParallaxLayer(-70);
+        var layer2 = new bma.pixi.ParallaxLayer(-10);
         var layer3 = new bma.pixi.ParallaxLayer(-300);
         var layer4 = new bma.pixi.ParallaxLayer(-1000);
 
@@ -51,10 +51,10 @@ var test = {};
         layer1.filters = [blur];
        */
 
-        this.populate(layer0, 'tile', 20, [-1000, 1000, -1000, 1000]);
+        this.populate(layer0, 'cloud1', 20, [-1000, 1000, -1000, 1000]);
         this.populate(layer1, 'tile', 20, [-1000, 1000, -1000, 1000], true);
-        this.populate(layer3, 'tile', 20, [-1000, 1000, -1000, 1000]);
-        this.populate(layer4, 'tile', 15, [-1000, 1000, -1000, 1000]);
+        this.populate(layer3, 'tiles', 20, [-1000, 1000, -1000, 1000]);
+        this.populate(layer4, 'planet', 15, [-1000, 1000, -1000, 1000]);
 
         this.player = PIXI.Sprite.fromFrame('plane');
         this.player.anchor.set(0.5, 0.5);
