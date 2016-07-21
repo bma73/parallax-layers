@@ -6,5 +6,29 @@ html {
 html, body {
     margin: 0;
     padding: 0;
-
+    color: white;
+    font-size: 12px;
+    font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial;
 }
+
+h2 {
+    margin: 0;
+    padding: 0;
+}
+
+
+input[type="numeric"], button {
+    width: 80px;
+}
+
+#ui {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.50);
+    -moz-text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.50);
+    -webkit-text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.50);
+}
+
+

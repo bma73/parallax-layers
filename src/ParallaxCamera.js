@@ -10,12 +10,12 @@ var bma;
                 this.baseContainer = baseContainer;
                 this.focalLength = focalLength;
                 this.movementDamping = movementDamping;
-                this._zoom = 1;
-                this._shakeEndTime = 0;
-                this._shakeStrength = 0;
                 this.x = 0;
                 this.y = 0;
                 this.layers = [];
+                this._zoom = 1;
+                this._shakeEndTime = 0;
+                this._shakeStrength = 0;
             }
             // *********************************************************************************************
             // * Public																					   *
@@ -49,21 +49,19 @@ var bma;
                         shakeY = this.randomFloat(-shakeStrength, shakeStrength);
                     }
                 }
-                /*let bounds = this.bounds;
-                 if (bounds)
-                 {
-                 // var zoom:Number =  _baseCamera.zoom;
-                 var zoom:Number =  _baseCamera.zoom;
-                 if (_x + shakeX <= -(bounds.width - sw) * zoom)
-                 _x = -(bounds.width - sw) * zoom;
-                 else if (_x - shakeY >= (-bounds.x - sw) * zoom)
-                 _x = (-bounds.x - sw) * zoom;
-    
-                 if (_y - shakeY <= -(bounds.height - sh) * zoom)
-                 _y = -(bounds.height - sh) * zoom;
-                 else if (_y + shakeY >= (-bounds.y - sh) * zoom)
-                 _y = (-bounds.y - sh) * zoom;
-                 }*/
+                var bounds = this.bounds;
+                if (bounds) {
+                    var zoom = this.zoom;
+                    zoom = 1;
+                    if (this.x <= -(bounds.width) * zoom)
+                        this.x = -(bounds.width) * zoom;
+                    else if (this.x >= (-bounds.x) * zoom)
+                        this.x = (-bounds.x) * zoom;
+                    if (this.y <= -(bounds.height) * zoom)
+                        this.y = -(bounds.height) * zoom;
+                    else if (this.y >= (-bounds.y) * zoom)
+                        this.y = (-bounds.y) * zoom;
+                }
                 var n = this.layers.length;
                 while (--n > -1) {
                     var layer = this.layers[n];

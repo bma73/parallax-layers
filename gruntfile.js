@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                     stripBanners: true
                 },
                 src: ['src/*.js'],
-                dest: 'bin/parallaxsystem.js'
+                dest: 'bin/parallaxlayers.js'
             }
         },
 
@@ -34,7 +34,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'bin/parallaxsystem.min.js': ['<%= concat.dist.dest %>']
+                    'bin/parallaxlayers.min.js': ['<%= concat.dist.dest %>']
                 }
             }
         }

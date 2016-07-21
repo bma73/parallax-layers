@@ -1,5 +1,13 @@
 module bma.pixi {
+
+
     export class ParallaxCamera {
+
+        public bounds:PIXI.Rectangle;
+        public x:number = 0;
+        public y:number = 0;
+        public layers:ParallaxLayer[] = [];
+
 
         protected _zoom:number = 1;
         protected _target:PIXI.DisplayObject;
@@ -7,10 +15,6 @@ module bma.pixi {
         protected _shakeEndTime:number = 0;
         protected _shakeStrength:number = 0;
 
-        public bounds:PIXI.Rectangle;
-        public x:number = 0;
-        public y:number = 0;
-        public layers:ParallaxLayer[] = [];
 
         constructor(public renderer:PIXI.SystemRenderer, public baseContainer:PIXI.Container, public focalLength:number = 300, public movementDamping:number = 15) {
         }
@@ -50,22 +54,20 @@ module bma.pixi {
                 }
             }
 
-            /*let bounds = this.bounds;
-             if (bounds)
-             {
-             // var zoom:Number =  _baseCamera.zoom;
-             var zoom:Number =  _baseCamera.zoom;
-             if (_x + shakeX <= -(bounds.width - sw) * zoom)
-             _x = -(bounds.width - sw) * zoom;
-             else if (_x - shakeY >= (-bounds.x - sw) * zoom)
-             _x = (-bounds.x - sw) * zoom;
+            let bounds = this.bounds;
+            if (bounds) {
+                let zoom = this.zoom;
+                zoom = 1;
+                if (this.x <= -(bounds.width) * zoom)
+                    this.x = -(bounds.width) * zoom;
+                else if (this.x >= (-bounds.x) * zoom)
+                    this.x = (-bounds.x) * zoom;
 
-             if (_y - shakeY <= -(bounds.height - sh) * zoom)
-             _y = -(bounds.height - sh) * zoom;
-             else if (_y + shakeY >= (-bounds.y - sh) * zoom)
-             _y = (-bounds.y - sh) * zoom;
-             }*/
-
+                if (this.y <= -(bounds.height) * zoom)
+                    this.y = -(bounds.height) * zoom;
+                else if (this.y >= (-bounds.y) * zoom)
+                    this.y = (-bounds.y) * zoom;
+            }
 
             let n = this.layers.length;
             while (--n > -1) {
