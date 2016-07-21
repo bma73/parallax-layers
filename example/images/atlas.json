@@ -1,0 +1,52 @@
+{"frames": {
+
+"cloud1":
+{
+	"frame": {"x":1027,"y":1,"w":514,"h":312},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":13,"w":514,"h":312},
+	"sourceSize": {"w":528,"h":325}
+},
+"plane":
+{
+	"frame": {"x":1027,"y":697,"w":178,"h":201},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":178,"h":201},
+	"sourceSize": {"w":178,"h":201}
+},
+"planet":
+{
+	"frame": {"x":1,"y":1,"w":1024,"h":1024},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1024,"h":1024},
+	"sourceSize": {"w":1024,"h":1024}
+},
+"tile":
+{
+	"frame": {"x":1412,"y":315,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+"tiles":
+{
+	"frame": {"x":1027,"y":315,"w":383,"h":380},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":383,"h":380},
+	"sourceSize": {"w":383,"h":380}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1542,"h":1026},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5b781458084ed2860aacaa647cb0aa19:7c80ac9a9940073a810b348acea7aaa0:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

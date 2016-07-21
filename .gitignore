@@ -1,0 +1,7 @@
+.idea
+*.map.js
+node_modules
+.DS_Store
+Thumbs.db
+Desktop.ini
+npm-debug.log
