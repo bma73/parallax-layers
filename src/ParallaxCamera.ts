@@ -1,22 +1,18 @@
 module bma.pixi {
-
-
     export class ParallaxCamera {
-
         public bounds:PIXI.Rectangle;
         public x:number = 0;
         public y:number = 0;
         public layers:ParallaxLayer[] = [];
 
-
+        protected _baseZoom:number = 1;
         protected _zoom:number = 1;
         protected _target:PIXI.DisplayObject;
 
         protected _shakeEndTime:number = 0;
         protected _shakeStrength:number = 0;
 
-
-        constructor(public renderer:PIXI.SystemRenderer, public baseContainer:PIXI.Container, public focalLength:number = 300, public movementDamping:number = 15) {
+        constructor(public renderer:PIXI.SystemRenderer, public baseContainer:PIXI.Container, public focalLength:number = 300, public movementDamping:number = 10) {
         }
 
         // *********************************************************************************************
@@ -31,6 +27,7 @@ module bma.pixi {
             let shakeY = 0;
 
             let target = this._target;
+
             if (target) {
                 if (this.movementDamping == 0) {
                     this.x = -target.x;
@@ -55,9 +52,9 @@ module bma.pixi {
             }
 
             let bounds = this.bounds;
+            bounds = null;
             if (bounds) {
                 let zoom = this.zoom;
-                zoom = 1;
                 if (this.x <= -(bounds.width) * zoom)
                     this.x = -(bounds.width) * zoom;
                 else if (this.x >= (-bounds.x) * zoom)
@@ -73,21 +70,22 @@ module bma.pixi {
             while (--n > -1) {
                 let layer = this.layers[n];
                 let d = this.focalLength / (this.focalLength - layer.pz);
-                layer.x = (layer.px + this.x + shakeX) * d;
-                layer.y = (layer.py + this.y + shakeY) * d;
+                layer.x = (layer.px + this.x + shakeX ) * d;
+                layer.y = (layer.py + this.y + shakeY ) * d;
                 layer.scale.set(d, d);
             }
 
             let tx = 0, ty = 0;
-            if (target && target.parent && target.parent['pz']) {
-                let p = target.parent;
-                tx = p.x * (1 / p.scale.x);
-                ty = p.y * (1 / p.scale.y);
+            if (target) {
+                let p = this.getParallaxParent(target.parent);
+                if (p) {
+                    tx = p.x * (1 / p.scale.x);
+                    ty = p.y * (1 / p.scale.y);
+                }
             }
 
-            this.baseContainer.x = this.x + sw - tx + shakeX;
-            this.baseContainer.y = this.y + sh - ty + shakeY;
-
+            this.baseContainer.x = this.x - tx + shakeX + sw;
+            this.baseContainer.y = this.y - ty + shakeY + sh;
         }
 
         public addLayer(layer:ParallaxLayer) {
@@ -124,6 +122,13 @@ module bma.pixi {
             }
         }
 
+        public zsort() {
+            this.layers = this.layers.sort((a:ParallaxLayer, b:ParallaxLayer) => a.pz - b.pz);
+            for (let i = 0; i < this.layers.length; ++i) {
+                this.baseContainer.addChildAt(this.layers[i], i);
+            }
+        }
+
         public dispose() {
             this.layers = null;
             this._target = null;
@@ -135,23 +140,31 @@ module bma.pixi {
             return this._target;
         }
 
+        public get baseZoom():number {
+            return this._baseZoom;
+        }
+
+        public set baseZoom(value:number) {
+            this._baseZoom = value;
+            this.zoom = this.zoom;
+        }
+
         public get zoom():number {
             return this._zoom;
         }
 
         public set zoom(value:number) {
             this._zoom = value;
-            this.baseContainer.scale.set(value, value);
+            this.baseContainer.scale.set(value * this._baseZoom, value * this._baseZoom);
         }
 
         // *********************************************************************************************
         // * Protected																				   *
         // *********************************************************************************************
-        protected zsort() {
-            this.layers = this.layers.sort((a:ParallaxLayer, b:ParallaxLayer) => a.pz - b.pz);
-            for (let i = 0; i < this.layers.length; ++i) {
-                this.baseContainer.addChildAt(this.layers[i], i);
-            }
+        protected getParallaxParent(p:PIXI.Container):ParallaxLayer {
+            if (p == null) return null;
+            if (p['pz']) return <ParallaxLayer>p;
+            return this.getParallaxParent(p.parent);
         }
 
         protected randomFloat(min:number, max:number):number {

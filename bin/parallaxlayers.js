@@ -5,7 +5,7 @@ var bma;
         var ParallaxCamera = (function () {
             function ParallaxCamera(renderer, baseContainer, focalLength, movementDamping) {
                 if (focalLength === void 0) { focalLength = 300; }
-                if (movementDamping === void 0) { movementDamping = 15; }
+                if (movementDamping === void 0) { movementDamping = 10; }
                 this.renderer = renderer;
                 this.baseContainer = baseContainer;
                 this.focalLength = focalLength;
@@ -13,6 +13,7 @@ var bma;
                 this.x = 0;
                 this.y = 0;
                 this.layers = [];
+                this._baseZoom = 1;
                 this._zoom = 1;
                 this._shakeEndTime = 0;
                 this._shakeStrength = 0;
@@ -50,9 +51,9 @@ var bma;
                     }
                 }
                 var bounds = this.bounds;
+                bounds = null;
                 if (bounds) {
                     var zoom = this.zoom;
-                    zoom = 1;
                     if (this.x <= -(bounds.width) * zoom)
                         this.x = -(bounds.width) * zoom;
                     else if (this.x >= (-bounds.x) * zoom)
@@ -71,13 +72,15 @@ var bma;
                     layer.scale.set(d, d);
                 }
                 var tx = 0, ty = 0;
-                if (target && target.parent && target.parent['pz']) {
-                    var p = target.parent;
-                    tx = p.x * (1 / p.scale.x);
-                    ty = p.y * (1 / p.scale.y);
+                if (target) {
+                    var p = this.getParallaxParent(target.parent);
+                    if (p) {
+                        tx = p.x * (1 / p.scale.x);
+                        ty = p.y * (1 / p.scale.y);
+                    }
                 }
-                this.baseContainer.x = this.x + sw - tx + shakeX;
-                this.baseContainer.y = this.y + sh - ty + shakeY;
+                this.baseContainer.x = this.x - tx + shakeX + sw;
+                this.baseContainer.y = this.y - ty + shakeY + sh;
             };
             ParallaxCamera.prototype.addLayer = function (layer) {
                 if (layer['pz'] == null)
@@ -111,6 +114,12 @@ var bma;
                     this.y = -target.y;
                 }
             };
+            ParallaxCamera.prototype.zsort = function () {
+                this.layers = this.layers.sort(function (a, b) { return a.pz - b.pz; });
+                for (var i = 0; i < this.layers.length; ++i) {
+                    this.baseContainer.addChildAt(this.layers[i], i);
+                }
+            };
             ParallaxCamera.prototype.dispose = function () {
                 this.layers = null;
                 this._target = null;
@@ -124,13 +133,24 @@ var bma;
                 enumerable: true,
                 configurable: true
             });
+            Object.defineProperty(ParallaxCamera.prototype, "baseZoom", {
+                get: function () {
+                    return this._baseZoom;
+                },
+                set: function (value) {
+                    this._baseZoom = value;
+                    this.zoom = this.zoom;
+                },
+                enumerable: true,
+                configurable: true
+            });
             Object.defineProperty(ParallaxCamera.prototype, "zoom", {
                 get: function () {
                     return this._zoom;
                 },
                 set: function (value) {
                     this._zoom = value;
-                    this.baseContainer.scale.set(value, value);
+                    this.baseContainer.scale.set(value * this._baseZoom, value * this._baseZoom);
                 },
                 enumerable: true,
                 configurable: true
@@ -138,11 +158,12 @@ var bma;
             // *********************************************************************************************
             // * Protected																				   *
             // *********************************************************************************************
-            ParallaxCamera.prototype.zsort = function () {
-                this.layers = this.layers.sort(function (a, b) { return a.pz - b.pz; });
-                for (var i = 0; i < this.layers.length; ++i) {
-                    this.baseContainer.addChildAt(this.layers[i], i);
-                }
+            ParallaxCamera.prototype.getParallaxParent = function (p) {
+                if (p == null)
+                    return null;
+                if (p['pz'])
+                    return p;
+                return this.getParallaxParent(p.parent);
             };
             ParallaxCamera.prototype.randomFloat = function (min, max) {
                 return Math.random() * (max - min) + min;
