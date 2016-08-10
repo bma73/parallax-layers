@@ -109,7 +109,7 @@ var bma;
             ParallaxCamera.prototype.setTarget = function (target, reposition) {
                 if (reposition === void 0) { reposition = true; }
                 this._target = target;
-                if (reposition) {
+                if (target && reposition) {
                     this.x = -target.x;
                     this.y = -target.y;
                 }

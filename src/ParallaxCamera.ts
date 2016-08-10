@@ -116,7 +116,7 @@ module bma.pixi {
 
         public setTarget(target:PIXI.DisplayObject, reposition:boolean = true) {
             this._target = target;
-            if (reposition) {
+            if (target && reposition) {
                 this.x = -target.x;
                 this.y = -target.y;
             }
