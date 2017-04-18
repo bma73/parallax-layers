@@ -52,7 +52,6 @@ module bma.pixi {
             }
 
             let bounds = this.bounds;
-            bounds = null;
             if (bounds) {
                 let zoom = this.zoom;
                 if (this.x <= -(bounds.width) * zoom)
